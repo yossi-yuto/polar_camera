@@ -1,1 +1,5 @@
 # polar_camera
+
+Lucid Vision Labが提供するpython APIを活用した自動撮影用プログラム
+sim_cap_MonoPolar_with_RGBcam.py はモノクロ偏光カメラとRGBカメラの同時画像撮影するプログラム。モノクロ偏光カメラでは、グレースケール画像、偏光度、偏光角がそれぞれ撮影される。一方、RGBカメラでは、通常のRGB画像が撮影される。
+sim_cap_RGBPolar.pyはカラー偏光カメラでRGB画像、偏光度、偏光角の３種類の画像を同時に撮影。

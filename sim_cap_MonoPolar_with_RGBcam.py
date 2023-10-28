@@ -115,6 +115,7 @@ class Application(tkinter.Frame):
         AoLP_raw = capture(self.device_polar)
         self.nodemap_polar['PixelFormat'].value = "PolarizedDolp_Mono8"
         DoLP_raw = capture(self.device_polar)
+        mid_time = time.time()
         self.nodemap_color['PixelFormat'].value = "RGB8"
         rgb_raw = capture(self.device_color)
         end_time = time.time()
@@ -122,6 +123,7 @@ class Application(tkinter.Frame):
         # Post-Processing
         aolp = post_process_AoLP(AoLP_raw)
         dolp = post_process_DoLP(DoLP_raw)
+        bgr = cv2.cvtColor(rgb_raw, cv2.COLOR_RGB2BGR)
 
         # Setting savepath
         save_dir = os.path.join(self.save_root, self.save_dir)
@@ -130,12 +132,13 @@ class Application(tkinter.Frame):
         os.makedirs(os.path.join(save_dir, "dolp"), exist_ok=True)
         os.makedirs(os.path.join(save_dir, "mono"), exist_ok=True)
         
-        cv2.imwrite(os.path.join(save_dir, "image", filename), rgb_raw)
+        cv2.imwrite(os.path.join(save_dir, "image", filename), bgr)
         cv2.imwrite(os.path.join(save_dir, "aolp", filename), aolp)
         cv2.imwrite(os.path.join(save_dir, "dolp", filename), dolp)
         cv2.imwrite(os.path.join(save_dir, "mono", filename), mono_raw)
         print(f"Captured image, aolp, dolp, and mono, shooting time: {end_time - start_time}[s]")
-
+        print(f"Polar camera shooting time: {end_time - mid_time:.3f}[s]")
+        print(f"RGB camera shooting time: {mid_time - start_time:.3f}[s]")
 
 def main():
     # Set cameras (polarize and web)
